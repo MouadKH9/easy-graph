@@ -36,7 +36,7 @@ public class MenuInitial extends javax.swing.JPanel {
 
         jLayeredPane1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jToggleButton1.setText("PondÃ©rÃ©");
+        jToggleButton1.setText("Pondéré");
         jToggleButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jButton1.setBackground(new java.awt.Color(0, 204, 255));
@@ -47,7 +47,7 @@ public class MenuInitial extends javax.swing.JPanel {
             }
         });
 
-        jToggleButton2.setText("OrientÃ©");
+        jToggleButton2.setText("Orienté");
 
         jLayeredPane1.setLayer(jToggleButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);

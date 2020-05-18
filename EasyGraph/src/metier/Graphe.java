@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,8 +29,12 @@ import theoriegraphes.MainFrame;
  *
  * @author abdel
  */
-public class Graphe implements Cloneable {
-    private Graphe preInstance;
+public class Graphe implements Cloneable,Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8870871086084361900L;
+	private Graphe preInstance;
     private ArrayList<Sommet> sommets = new ArrayList<>();
     private ArrayList<Arret> arrets = new ArrayList<>();
 

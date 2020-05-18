@@ -10,13 +10,18 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
+import java.io.Serializable;
 
 /**
  *
  * @author abdel
  */
-public class Arret implements Comparable<Arret> {
-    private Sommet sommetA;
+public class Arret implements Comparable<Arret>,Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3800009947381441083L;
+	private Sommet sommetA;
     private Sommet sommetB;
     private Color couleur;
     private double cout;

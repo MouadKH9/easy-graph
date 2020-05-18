@@ -5,6 +5,35 @@
  */
 package theoriegraphes;
 
+import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.imageio.ImageIO;
+import javax.swing.JColorChooser;
+import javax.swing.JFileChooser;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import algos.BFS;
 import algos.BellmanFord;
 import algos.DFS;
@@ -13,33 +42,8 @@ import algos.FordFolkersonResiduelle;
 import algos.Kruscal;
 import algos.Prim;
 import algos.Wireshall;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfDocument;
-import com.itextpdf.text.pdf.PdfWriter;
-import java.awt.AWTException;
-import java.awt.Color;
-import java.awt.Desktop;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.JColorChooser;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import metier.Arret;
 import metier.Configuration;
-import metier.Sommet;
+import metier.Graphe;
 
 /**
  *
@@ -56,10 +60,108 @@ public class MainFrame extends javax.swing.JFrame {
     
     private MainFrame() {
         initComponents();
+        
+        JMenuBar mb = new JMenuBar();
+        JMenu fileMenu = new JMenu("Fichier");
+    	JMenuItem openMenuItem = new JMenuItem("Ouvrir");
+    	JMenuItem saveMenuItem = new JMenuItem("Enregistrer");
+    	JMenuItem exitMenuItem = new JMenuItem("Quitter");
+
+    	openMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	openSave();
+            }
+        });
+    	
+    	saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	save();
+            }
+        });
+    	
+
+    	exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	exit();
+            }
+        });
+        
+    	fileMenu.add(openMenuItem);
+    	fileMenu.add(saveMenuItem);
+    	fileMenu.add(exitMenuItem);
+    	
+    	mb.add(fileMenu);
+        
+        this.setJMenuBar(mb);
     }
     
     public void setCentrePanel(JPanel p){
         jScrollPane2.setViewportView(p);
+    }
+    
+    public void openSave(){
+		try {
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+			
+			int result = fileChooser.showOpenDialog(this);
+			
+			if (result != JFileChooser.APPROVE_OPTION) return;
+			
+			File selectedFile = fileChooser.getSelectedFile();
+			
+			FileInputStream fis = new FileInputStream(selectedFile);
+
+	        ObjectInputStream ois = new ObjectInputStream(fis);
+	        Graphe newGraph = (Graphe) ois.readObject();
+	        ois.close();
+	        
+	        
+	        Canvas.getInstance().setGraphe(newGraph);
+	        Canvas.getInstance().repaint();
+		} catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Une erreur s'est produite lors la lecture de ce enregistrement.");
+			e.printStackTrace();
+		}
+    }
+    public void save() {
+
+    	try {
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+			
+			int result = fileChooser.showOpenDialog(this);
+			
+			if (result != JFileChooser.APPROVE_OPTION) return;
+			
+			File selectedFile = fileChooser.getSelectedFile();
+    		 
+            FileOutputStream fileOut = new FileOutputStream(selectedFile);
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(Canvas.getInstance().getGraphe());
+            objectOut.close();
+ 
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Une erreur s'est produite lors de la tentative d'enregistrement");
+
+        }
+    	
+    }
+    
+    public void exit() {
+    	if(Canvas.getInstance() != null && 
+    			Canvas.getInstance().getGraphe() != null &&
+    			Canvas.getInstance().getGraphe().getSommets().size() > 0) {
+    		
+    		int input = JOptionPane.showConfirmDialog(null,
+                    "Vous avez du progres non enregistré, voulez-vous le sauvegarder?", "Attention",JOptionPane.YES_NO_CANCEL_OPTION);
+    		if(input == 0){ // Oui
+    			save();
+    			System.exit(0);
+    		}else if(input == 1) //Non
+    			System.exit(0);
+    	}
     }
 
     /**

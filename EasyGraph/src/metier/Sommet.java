@@ -14,8 +14,12 @@ import java.io.Serializable;
  *
  * @author abdel
  */
-public class Sommet implements Comparable<Sommet> {
-    private String label;
+public class Sommet implements Comparable<Sommet>,Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5883863939008690085L;
+	private String label;
     private Color couleurLabel;
     private Color couleur;
     private int position_x;
