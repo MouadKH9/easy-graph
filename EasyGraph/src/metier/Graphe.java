@@ -43,6 +43,7 @@ public class Graphe implements Cloneable,Serializable {
         for (Arret ar : arrets) {
             if(Configuration.oriente)matrice[sommets.indexOf(ar.getSommetA())][sommets.indexOf(ar.getSommetB())]=1;
             else{
+            	if(sommets.indexOf(ar.getSommetA()) < 0 || sommets.indexOf(ar.getSommetB()) < 0) continue;
                 matrice[sommets.indexOf(ar.getSommetA())][sommets.indexOf(ar.getSommetB())]=1;
                 matrice[sommets.indexOf(ar.getSommetB())][sommets.indexOf(ar.getSommetA())]=1;
             }
