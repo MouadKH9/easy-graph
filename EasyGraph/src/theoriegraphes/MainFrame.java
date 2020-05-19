@@ -60,6 +60,8 @@ import java.awt.event.ActionEvent;
  */
 public class MainFrame extends javax.swing.JFrame {
     private static MainFrame instance;
+    
+    
     public static MainFrame getInstance(){
         if(instance==null){
             instance = new MainFrame();
@@ -382,16 +384,16 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         
-        JButton btn_fordfolkerson2_1 = new JButton();
-        btn_fordfolkerson2_1.setEnabled(false);
-        btn_fordfolkerson2_1.addActionListener(new ActionListener() {
+        btn_welch_powell = new JButton();
+        btn_welch_powell.setEnabled(false);
+        btn_welch_powell.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
             
         		new Thread(new WelchPowell(Canvas.getInstance().getGraphe())).start();
                 
         	}
         });
-        btn_fordfolkerson2_1.setText("Welch et Powell");
+        btn_welch_powell.setText("Welch et Powell");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1Layout.setHorizontalGroup(
@@ -436,7 +438,7 @@ public class MainFrame extends javax.swing.JFrame {
         					.addComponent(jLabel8, GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
         					.addPreferredGap(ComponentPlacement.UNRELATED)
         					.addComponent(jSlider1, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE))
-        				.addComponent(btn_fordfolkerson2_1, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE))
+        				.addComponent(btn_welch_powell, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE))
         			.addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -467,7 +469,7 @@ public class MainFrame extends javax.swing.JFrame {
         			.addPreferredGap(ComponentPlacement.UNRELATED)
         			.addComponent(btn_fordfolkerson2)
         			.addGap(18)
-        			.addComponent(btn_fordfolkerson2_1)
+        			.addComponent(btn_welch_powell)
         			.addGap(27)
         			.addComponent(jButton4)
         			.addPreferredGap(ComponentPlacement.RELATED)
@@ -840,6 +842,7 @@ public class MainFrame extends javax.swing.JFrame {
     public static javax.swing.JButton btn_exporter_pdf;
     public static javax.swing.JButton btn_fordfolkerson1;
     public static javax.swing.JButton btn_fordfolkerson2;
+    public static javax.swing.JButton btn_welch_powell;
     public static javax.swing.JButton btn_kruskal;
     public static javax.swing.JButton btn_matrice;
     private javax.swing.JButton btn_mode_emploi;
@@ -874,4 +877,5 @@ public class MainFrame extends javax.swing.JFrame {
     public static javax.swing.JLabel label_e;
     public static javax.swing.JLabel label_v;
     private theoriegraphes.MenuInitial menuInitial1;
+    
 }

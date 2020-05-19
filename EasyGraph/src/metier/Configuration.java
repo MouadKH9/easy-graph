@@ -80,6 +80,7 @@ public class Configuration {
         		sommetsExist=false,backedUp=false,
         		backupSommetsExist=false,selectionExists=false,
         		sourceExists=false,sinkExists=false;
+        
         canvasExists = Canvas.getInstance()!=null;
         if(canvasExists) graphExists = Canvas.getInstance().getGraphe()!=null;
         if(graphExists) sommetsExist = Canvas.getInstance().getGraphe().getSommets().size()>0;
@@ -88,6 +89,7 @@ public class Configuration {
         if(canvasExists) selectionExists = Canvas.getInstance().getSelectionne()!=null;
         if(graphExists) sourceExists=Canvas.getInstance().getGraphe().getS()!=null;
         if(graphExists) sinkExists=Canvas.getInstance().getGraphe().getP()!=null;
+        
         MainFrame.btn_matrice.setEnabled(canvasExists);
         MainFrame.btn_enregistrer.setEnabled(canvasExists && graphExists && sommetsExist);
         MainFrame.btn_restore.setEnabled(backedUp && backupSommetsExist);
@@ -99,5 +101,7 @@ public class Configuration {
         MainFrame.btn_dijikstra.setEnabled(canvasExists && graphExists && sommetsExist && selectionExists && pondere_positive && oriente);
         MainFrame.btn_billmanford.setEnabled(canvasExists && graphExists && sommetsExist && selectionExists && pondere && oriente);
         MainFrame.btn_fordfolkerson2.setEnabled(sourceExists && sinkExists && oriente && pondere);
+        
+        MainFrame.btn_welch_powell.setEnabled(canvasExists && sommetsExist);
     }
 }
