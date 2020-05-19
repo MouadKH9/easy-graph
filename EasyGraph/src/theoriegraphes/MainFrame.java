@@ -383,6 +383,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         
         JButton btn_fordfolkerson2_1 = new JButton();
+        btn_fordfolkerson2_1.setEnabled(false);
         btn_fordfolkerson2_1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
             

@@ -76,25 +76,28 @@ public class Configuration {
         images.add(screenShot);
     }
     public static void checkAlgos(){
-        boolean c1=false,c2=false,c3=false,c4=false,c5=false,c6=false,c7=false,c8=false;
-        c1 = Canvas.getInstance()!=null;
-        if(c1)c2 = Canvas.getInstance().getGraphe()!=null;
-        if(c2)c3 = Canvas.getInstance().getGraphe().getSommets().size()>0;
-        c4 = sommets_bkp!=null;
-        if(c4)c5 = sommets_bkp.size()>0;
-        if(c1)c6 = Canvas.getInstance().getSelectionne()!=null;
-        if(c2)c7=Canvas.getInstance().getGraphe().getS()!=null;
-        if(c2)c8=Canvas.getInstance().getGraphe().getP()!=null;
-        MainFrame.btn_matrice.setEnabled(c1);
-        MainFrame.btn_enregistrer.setEnabled(c1 && c2 && c3);
-        MainFrame.btn_restore.setEnabled(c4 && c5);
-        MainFrame.btn_bfs.setEnabled(c3 && c6);
-        MainFrame.btn_dfs.setEnabled(c3 && c6);
-        MainFrame.btn_wireshall.setEnabled(c1 && c2 && c3);
-        MainFrame.btn_prim.setEnabled(c1 && c2 && c3);
-        MainFrame.btn_kruskal.setEnabled(c1 && c2 && c3);
-        MainFrame.btn_dijikstra.setEnabled(c1 && c2 && c3 && c6 && pondere_positive && oriente);
-        MainFrame.btn_billmanford.setEnabled(c1 && c2 && c3 && c6 && pondere && oriente);
-        MainFrame.btn_fordfolkerson2.setEnabled(c7 && c8 && oriente && pondere);
+        boolean canvasExists=false,graphExists=false,
+        		sommetsExist=false,backedUp=false,
+        		backupSommetsExist=false,selectionExists=false,
+        		sourceExists=false,sinkExists=false;
+        canvasExists = Canvas.getInstance()!=null;
+        if(canvasExists) graphExists = Canvas.getInstance().getGraphe()!=null;
+        if(graphExists) sommetsExist = Canvas.getInstance().getGraphe().getSommets().size()>0;
+        backedUp = sommets_bkp!=null;
+        if(backedUp) backupSommetsExist = sommets_bkp.size()>0;
+        if(canvasExists) selectionExists = Canvas.getInstance().getSelectionne()!=null;
+        if(graphExists) sourceExists=Canvas.getInstance().getGraphe().getS()!=null;
+        if(graphExists) sinkExists=Canvas.getInstance().getGraphe().getP()!=null;
+        MainFrame.btn_matrice.setEnabled(canvasExists);
+        MainFrame.btn_enregistrer.setEnabled(canvasExists && graphExists && sommetsExist);
+        MainFrame.btn_restore.setEnabled(backedUp && backupSommetsExist);
+        MainFrame.btn_bfs.setEnabled(sommetsExist && selectionExists);
+        MainFrame.btn_dfs.setEnabled(sommetsExist && selectionExists);
+        MainFrame.btn_wireshall.setEnabled(canvasExists && graphExists && sommetsExist);
+        MainFrame.btn_prim.setEnabled(canvasExists && graphExists && sommetsExist);
+        MainFrame.btn_kruskal.setEnabled(canvasExists && graphExists && sommetsExist);
+        MainFrame.btn_dijikstra.setEnabled(canvasExists && graphExists && sommetsExist && selectionExists && pondere_positive && oriente);
+        MainFrame.btn_billmanford.setEnabled(canvasExists && graphExists && sommetsExist && selectionExists && pondere && oriente);
+        MainFrame.btn_fordfolkerson2.setEnabled(sourceExists && sinkExists && oriente && pondere);
     }
 }
