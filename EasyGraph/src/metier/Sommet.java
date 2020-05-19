@@ -6,6 +6,7 @@
 package metier;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.io.Serializable;
@@ -25,6 +26,8 @@ public class Sommet implements Comparable<Sommet>,Serializable {
     private int position_x;
     private int position_y;
     private boolean selected;
+    
+    private boolean marked = false;// Pour l'algo ford fulkerson marquage
 
     public String getLabel() {
         return label;
@@ -102,12 +105,23 @@ public class Sommet implements Comparable<Sommet>,Serializable {
             g2d.drawOval(position_x-(Configuration.taille_sommet+1), position_y-(Configuration.taille_sommet+1), Configuration.taille_sommet*2+2, Configuration.taille_sommet*2+2);
         }
         g2d.setColor(couleurLabel);
+        g2d.setFont(new Font("Times New Roman", Font.PLAIN, 24));
+        if(marked) g2d.drawString("+", position_x-5,  position_y-Configuration.taille_sommet - 5);
         int labelWidth = g2d.getFontMetrics().stringWidth(label);
         int labelHeight = g2d.getFontMetrics().getHeight();
         g2d.drawString(label, position_x-labelWidth/2, position_y+labelHeight/4);
     }
 
-    @Override
+    
+    public boolean isMarked() {
+		return marked;
+	}
+
+	public void setMarked(boolean marked) {
+		this.marked = marked;
+	}
+
+	@Override
     public String toString() {
         return label;
     }
