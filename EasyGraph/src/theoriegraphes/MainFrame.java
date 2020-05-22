@@ -38,6 +38,7 @@ import algos.BFS;
 import algos.BellmanFord;
 import algos.DFS;
 import algos.Dijikstra;
+import algos.FordFolkersonMarquage;
 import algos.FordFolkersonResiduelle;
 import algos.Kruscal;
 import algos.Prim;
@@ -53,6 +54,8 @@ import javax.swing.SwingConstants;
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
+import java.awt.Toolkit;
 
 /**
  *
@@ -70,6 +73,8 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     private MainFrame() {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/assets/graph.png")));
+    	setTitle("EasyGraph");
         initComponents();
         
         JMenuBar mb = new JMenuBar();
@@ -121,12 +126,17 @@ public class MainFrame extends javax.swing.JFrame {
 			
 			File selectedFile = fileChooser.getSelectedFile();
 			
+//			FileInputStream fis = new FileInputStream("C:/users/lg/Desktop/flot.graph");
+
 			FileInputStream fis = new FileInputStream(selectedFile);
 
 	        ObjectInputStream ois = new ObjectInputStream(fis);
 	        Graphe newGraph = (Graphe) ois.readObject();
 	        ois.close();
 	        
+	        
+	        Configuration.pondere = newGraph.isPondere();
+	        Configuration.oriente = newGraph.isOriente();
 	        
 	        Canvas.getInstance().setGraphe(newGraph);
 	        Canvas.getInstance().repaint();
@@ -220,16 +230,22 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel1.setFont(new Font("Roboto", Font.PLAIN, 16));
         jLabel2 = new javax.swing.JLabel();
+        jLabel2.setFont(new Font("Roboto", Font.PLAIN, 16));
         jLabel3 = new javax.swing.JLabel();
+        jLabel3.setFont(new Font("Roboto", Font.PLAIN, 16));
         btn_mode_emploi = new javax.swing.JButton();
         label_v = new javax.swing.JLabel();
+        label_v.setFont(new Font("Roboto", Font.PLAIN, 16));
         label_e = new javax.swing.JLabel();
+        label_e.setFont(new Font("Roboto", Font.PLAIN, 16));
         label_d = new javax.swing.JLabel();
+        label_d.setFont(new Font("Roboto", Font.PLAIN, 16));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jSplitPane1.setResizeWeight(1.0);
+        jSplitPane1.setResizeWeight(0.8);
 
         btn_bfs.setText("BFS");
         btn_bfs.setEnabled(false);
@@ -787,7 +803,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_fordfolkerson2ActionPerformed
 
     private void btn_fordfolkerson1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_fordfolkerson1ActionPerformed
-
+    	new Thread(new FordFolkersonMarquage(Canvas.getInstance().getGraphe(), Canvas.getInstance().getGraphe().getS(),Canvas.getInstance().getGraphe().getP())).start();
     }//GEN-LAST:event_btn_fordfolkerson1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed

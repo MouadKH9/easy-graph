@@ -100,6 +100,7 @@ public class Configuration {
         MainFrame.btn_kruskal.setEnabled(canvasExists && graphExists && sommetsExist);
         MainFrame.btn_dijikstra.setEnabled(canvasExists && graphExists && sommetsExist && selectionExists && pondere_positive && oriente);
         MainFrame.btn_billmanford.setEnabled(canvasExists && graphExists && sommetsExist && selectionExists && pondere && oriente);
+        MainFrame.btn_fordfolkerson1.setEnabled(sourceExists && sinkExists && oriente && pondere);
         MainFrame.btn_fordfolkerson2.setEnabled(sourceExists && sinkExists && oriente && pondere);
         
         MainFrame.btn_welch_powell.setEnabled(canvasExists && sommetsExist);

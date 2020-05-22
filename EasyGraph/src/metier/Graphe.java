@@ -35,8 +35,12 @@ public class Graphe implements Cloneable,Serializable {
 	 */
 	private static final long serialVersionUID = 8870871086084361900L;
 	private Graphe preInstance;
-    private ArrayList<Sommet> sommets = new ArrayList<>();
+	private ArrayList<Sommet> sommets = new ArrayList<>();
     private ArrayList<Arret> arrets = new ArrayList<>();
+    
+    // Pour le sauvegarde du graphe:
+    private boolean pondere = true;
+    private boolean oriente = true;
 
     public int[][] matriceAdj(){
         int[][] matrice = new int[sommets.size()][sommets.size()];
@@ -74,6 +78,23 @@ public class Graphe implements Cloneable,Serializable {
     public void setArrets(ArrayList<Arret> arrets) {
         this.arrets = arrets;
     }
+    
+
+    public boolean isPondere() {
+		return pondere;
+	}
+
+	public void setPondere(boolean pondere) {
+		this.pondere = pondere;
+	}
+
+	public boolean isOriente() {
+		return oriente;
+	}
+
+	public void setOriente(boolean oriente) {
+		this.oriente = oriente;
+	}
     
     public Sommet addSommet(int x, int y){
         Rectangle rec = new Rectangle(x, y, Configuration.taille_sommet*2, Configuration.taille_sommet*2);
@@ -289,7 +310,13 @@ public class Graphe implements Cloneable,Serializable {
         ArrayList<Sommet> liste = new ArrayList<>();
         if(Configuration.oriente){
             for (Arret ar : arrets) {
-                if(ar.getSommetA()==s)liste.add(ar.getSommetB());
+            	if(Configuration.current_algo != null && Configuration.current_algo.getNom().contains("marquage")) {
+        			if(ar.getFlux() != null && 
+            			ar.getFlux() < ar.getCout() &&
+            			ar.getSommetA()==s)
+        					liste.add(ar.getSommetB());
+            	}
+            	else if(ar.getSommetA()==s) liste.add(ar.getSommetB());
             }
         }else{
             for (Arret ar : arrets) {

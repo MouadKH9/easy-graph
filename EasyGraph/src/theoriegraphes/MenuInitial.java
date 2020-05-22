@@ -6,6 +6,16 @@
 package theoriegraphes;
 
 import metier.Configuration;
+import java.awt.Color;
+import javax.swing.UIManager;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.JPanel;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.BorderLayout;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  *
@@ -30,69 +40,82 @@ public class MenuInitial extends javax.swing.JPanel {
     private void initComponents() {
 
         jLayeredPane1 = new javax.swing.JLayeredPane();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jButton1 = new javax.swing.JButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
 
         jLayeredPane1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        jToggleButton1.setText("Pondéré");
-        jToggleButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-        jButton1.setBackground(new java.awt.Color(0, 204, 255));
-        jButton1.setText("Lancer");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jToggleButton2.setText("Orienté");
-
-        jLayeredPane1.setLayer(jToggleButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jToggleButton2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        
+        JPanel panel = new JPanel();
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
-        jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
-            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
-                    .addComponent(jToggleButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+        	jLayeredPane1Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
+        			.addContainerGap(183, Short.MAX_VALUE)
+        			.addComponent(panel, GroupLayout.PREFERRED_SIZE, 371, GroupLayout.PREFERRED_SIZE)
+        			.addGap(167))
         );
         jLayeredPane1Layout.setVerticalGroup(
-            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jToggleButton2)
-                .addGap(22, 22, 22)
-                .addComponent(jToggleButton1)
-                .addGap(22, 22, 22)
-                .addComponent(jButton1)
-                .addContainerGap())
+        	jLayeredPane1Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jLayeredPane1Layout.createSequentialGroup()
+        			.addGap(164)
+        			.addComponent(panel, GroupLayout.PREFERRED_SIZE, 147, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(166, Short.MAX_VALUE))
         );
+                        panel.setLayout(null);
+                        jToggleButton2 = new javax.swing.JToggleButton();
+                        jToggleButton2.setBounds(0, 25, 174, 25);
+                        panel.add(jToggleButton2);
+                        
+                                jToggleButton2.setText("Orienté");
+                                jLayeredPane1.setLayer(jToggleButton2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+                                jToggleButton1 = new javax.swing.JToggleButton();
+                                jToggleButton1.setBounds(0, 63, 174, 25);
+                                panel.add(jToggleButton1);
+                                
+                                        jToggleButton1.setText("Pondéré");
+                                        jToggleButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+                                        
+                                                jLayeredPane1.setLayer(jToggleButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+                                jButton1 = new javax.swing.JButton();
+                                jButton1.setBackground(Color.BLUE);
+                                jButton1.setBounds(0, 103, 174, 25);
+                                panel.add(jButton1);
+                                jButton1.setForeground(Color.WHITE);
+                                
+                                        
+                                        jButton1.setText("Cr\u00E9er");
+                                        jButton1.addActionListener(new java.awt.event.ActionListener() {
+                                            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                                jButton1ActionPerformed(evt);
+                                            }
+                                        });
+                                        jLayeredPane1.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+                                        
+                                        JButton btnOuvrirUnGraphe = new JButton("Ouvrir un graphe");
+                                        btnOuvrirUnGraphe.addActionListener(new ActionListener() {
+                                        	public void actionPerformed(ActionEvent arg0) {
+                                                MainFrame.getInstance().setCentrePanel(new Canvas());
+                                                MainFrame.getInstance().openSave();
+                                                Configuration.checkAlgos();
+                                        	}
+                                        });
+                                        btnOuvrirUnGraphe.setBounds(230, 46, 129, 58);
+                                        panel.add(btnOuvrirUnGraphe);
+        jLayeredPane1.setLayout(jLayeredPane1Layout);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(134, 134, 134)
-                .addComponent(jLayeredPane1)
-                .addGap(135, 135, 135))
+        	layout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+        			.addComponent(jLayeredPane1, GroupLayout.PREFERRED_SIZE, 727, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(192, 192, 192)
-                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(211, Short.MAX_VALUE))
+        	layout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+        			.addComponent(jLayeredPane1, GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+        			.addContainerGap())
         );
+        this.setLayout(layout);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -108,5 +131,4 @@ public class MenuInitial extends javax.swing.JPanel {
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;
-    // End of variables declaration//GEN-END:variables
 }
