@@ -478,6 +478,13 @@ public class Graphe implements Cloneable,Serializable {
         arrets.add(ar);
         return ar;
     }
+
+    public Arret addArret(Sommet get, Sommet get0, Double epsi,boolean retour) {
+        Arret ar = new Arret(get, get0, Configuration.coleur_arret, epsi,retour);
+        arrets.add(ar);
+        return ar;
+    }
+    
     public double getFluxMax(){
         double flux_max = 0.0;
         Sommet dest = getP();

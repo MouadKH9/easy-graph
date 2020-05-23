@@ -12,21 +12,17 @@ import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.io.Serializable;
 
-/**
- *
- * @author abdel
- */
 public class Arret implements Comparable<Arret>,Serializable {
-    /**
-	 * 
-	 */
+
+
 	private static final long serialVersionUID = -3800009947381441083L;
 	private Sommet sommetA;
     private Sommet sommetB;
     private Color couleur;
     private double cout;
     private Double flux = null;
-    private boolean dashed=false;// pour wireshall
+    private boolean dashed = false;// pour wireshall
+    private boolean retour = false;
     
 
     public Arret(Arret o,Sommet a,Sommet b){//constructeur de recopie
@@ -49,6 +45,15 @@ public class Arret implements Comparable<Arret>,Serializable {
         this.sommetB = sommetB;
         this.couleur = couleur;
         this.cout = cout;
+    }
+    
+
+    public Arret(Sommet sommetA, Sommet sommetB, Color couleur, double cout,boolean retour) {
+        this.sommetA = sommetA;
+        this.sommetB = sommetB;
+        this.couleur = couleur;
+        this.cout = cout;
+        this.retour = retour;
     }
 
     public Double getFlux() {
@@ -100,16 +105,29 @@ public class Arret implements Comparable<Arret>,Serializable {
         this.cout = cout;
     }
     
-    public void draw(Graphics2D g2d){
+    public boolean isRetour() {
+		return retour;
+	}
+	public void setRetour(boolean retour) {
+		this.retour = retour;
+	}
+	
+	public void draw(Graphics2D g2d){
         Stroke st = g2d.getStroke();
         g2d.setColor(couleur);
         if(dashed)g2d.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0));
         else g2d.setStroke(new BasicStroke(Configuration.taille_arret));
+        
+        
+        
         if(sommetA==sommetB){//boucle
-            g2d.drawArc(sommetA.getPosition_x()-2*Configuration.taille_sommet/3, sommetA.getPosition_y()-(Configuration.taille_sommet+Configuration.taille_sommet/2), 4*Configuration.taille_sommet/3, Configuration.taille_sommet, 0, 360);
+        	int x = sommetA.getPosition_x()-2*Configuration.taille_sommet/3;
+            int y = sommetA.getPosition_y()-(Configuration.taille_sommet+Configuration.taille_sommet/2);
+            
+            g2d.drawArc(x, y, 4*Configuration.taille_sommet/3, Configuration.taille_sommet, 0, 360);
         }else{
-            g2d.drawLine(sommetA.getPosition_x(), sommetA.getPosition_y(),sommetB.getPosition_x(), sommetB.getPosition_y());
-            if(Configuration.oriente){
+           g2d.drawLine(sommetA.getPosition_x(), sommetA.getPosition_y(),sommetB.getPosition_x(), sommetB.getPosition_y());
+           if(Configuration.oriente){
                 double dx = sommetB.getPosition_x() - sommetA.getPosition_x();
                 double dy = sommetB.getPosition_y() - sommetA.getPosition_y();
                 double distance = Math.sqrt(Math.pow(dx, 2)+Math.pow(dy, 2));
@@ -127,6 +145,12 @@ public class Arret implements Comparable<Arret>,Serializable {
         	//get center of the line
             int centerX =sommetA.getPosition_x() + ((sommetB.getPosition_x()-sommetA.getPosition_x())/2);
             int centerY =sommetA.getPosition_y() + ((sommetB.getPosition_y()-sommetA.getPosition_y())/2);
+
+            if(retour) {
+            	centerX+=20;
+                centerY+=20;            	
+            }
+
             //get the angle in degrees
             double deg = Math.toDegrees(Math.atan2(centerY - sommetB.getPosition_y(), centerX - sommetB.getPosition_x())+ Math.PI);
             //need this in order to flip the text to be more readable within angles 90<deg<270
@@ -140,7 +164,10 @@ public class Arret implements Comparable<Arret>,Serializable {
             //rotate the text
             g2d.rotate(angle, centerX, centerY);
             //draw the text to the center of the line
-            g2d.setColor(Configuration.coleur_label);
+            if(!retour)
+            	g2d.setColor(Configuration.coleur_label);
+            else
+            	g2d.setColor(Color.BLUE);
             //if(flux!=0)label=
             g2d.drawString(label, centerX - (sw/2), centerY - (Configuration.taille_arret+5)); 
             //reverse the rotation
