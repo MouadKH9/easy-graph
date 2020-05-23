@@ -56,6 +56,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Toolkit;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -223,25 +226,12 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         menuInitial1 = new theoriegraphes.MenuInitial();
         jSplitPane3 = new javax.swing.JSplitPane();
+        jSplitPane3.setResizeWeight(0.3);
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         console = new javax.swing.JTextArea();
         btn_exporter_pdf = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel1.setFont(new Font("Roboto", Font.PLAIN, 16));
-        jLabel2 = new javax.swing.JLabel();
-        jLabel2.setFont(new Font("Roboto", Font.PLAIN, 16));
-        jLabel3 = new javax.swing.JLabel();
-        jLabel3.setFont(new Font("Roboto", Font.PLAIN, 16));
-        btn_mode_emploi = new javax.swing.JButton();
-        label_v = new javax.swing.JLabel();
-        label_v.setFont(new Font("Roboto", Font.PLAIN, 16));
-        label_e = new javax.swing.JLabel();
-        label_e.setFont(new Font("Roboto", Font.PLAIN, 16));
-        label_d = new javax.swing.JLabel();
-        label_d.setFont(new Font("Roboto", Font.PLAIN, 16));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -523,7 +513,6 @@ public class MainFrame extends javax.swing.JFrame {
         jSplitPane1.setLeftComponent(jSplitPane2);
 
         jSplitPane3.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
-        jSplitPane3.setResizeWeight(1.0);
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Trace"));
 
@@ -563,70 +552,30 @@ public class MainFrame extends javax.swing.JFrame {
 
         jSplitPane3.setRightComponent(jPanel5);
 
-        jLabel1.setText("Nombre de sommets (|V|):");
-
-        jLabel2.setText("Nombre d'arrets(|E|):");
-
-        jLabel3.setText("Densite (d):");
-
-        btn_mode_emploi.setText("Mode d'emploi");
-        btn_mode_emploi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_mode_emploiActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_mode_emploi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(label_v, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(label_d, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(label_e, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btn_mode_emploi)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(label_v))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(label_e))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(label_d))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, label_v});
-
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel3, label_d});
-
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel2, label_e});
-
-        jScrollPane3.setViewportView(jPanel2);
-
         jSplitPane3.setLeftComponent(jScrollPane3);
+        
+        infoTable = new JTable();
+        infoTable.setShowVerticalLines(false);
+        infoTable.setShowHorizontalLines(false);
+        infoTable.setShowGrid(false);
+        infoTable.setTableHeader(null);
+        infoTable.setFont(new Font("Roboto", Font.PLAIN, 15));
+        infoTable.setEnabled(false);
+        infoTable.setModel(new DefaultTableModel(
+        	new Object[][] {
+        		{"Nombre des sommets", null},
+        		{"Nombre d'arrets", null},
+        		{"Densit\u00E9", null},
+        		{"Connexe", null},
+        		{"Complet", null},
+        	},
+        	new String[] {
+        		"New column", "New column"
+        	}
+        ));
+        infoTable.getColumnModel().getColumn(0).setPreferredWidth(127);
+        infoTable.getColumnModel().getColumn(1).setPreferredWidth(50);
+        jScrollPane3.setViewportView(infoTable);
 
         jSplitPane1.setRightComponent(jSplitPane3);
 
@@ -763,17 +712,6 @@ public class MainFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btn_exporter_pdfActionPerformed
 
-    private void btn_mode_emploiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mode_emploiActionPerformed
-        if (Desktop.isDesktopSupported()) {
-            try {
-                File mode_emploi = new File(MainFrame.class.getResource("mode_emploi.pdf").getPath());
-                Desktop.getDesktop().open(mode_emploi);
-            } catch (IOException ex) {
-                // no application registered for PDFs
-            }
-        }
-    }//GEN-LAST:event_btn_mode_emploiActionPerformed
-
     private void btn_enregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enregistrerActionPerformed
         Configuration.backup();
     }//GEN-LAST:event_btn_enregistrerActionPerformed
@@ -861,7 +799,6 @@ public class MainFrame extends javax.swing.JFrame {
     public static javax.swing.JButton btn_welch_powell;
     public static javax.swing.JButton btn_kruskal;
     public static javax.swing.JButton btn_matrice;
-    private javax.swing.JButton btn_mode_emploi;
     public static javax.swing.JButton btn_prim;
     public static javax.swing.JButton btn_restore;
     public static javax.swing.JButton btn_wireshall;
@@ -871,16 +808,12 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JScrollPane jScrollPane2;
@@ -889,9 +822,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;
-    public static javax.swing.JLabel label_d;
-    public static javax.swing.JLabel label_e;
-    public static javax.swing.JLabel label_v;
     private theoriegraphes.MenuInitial menuInitial1;
-    
+    public JTable infoTable;
 }

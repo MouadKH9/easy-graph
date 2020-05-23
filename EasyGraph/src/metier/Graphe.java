@@ -167,6 +167,46 @@ public class Graphe implements Cloneable,Serializable {
         }
         arrets.add(ar);
     }
+    
+    public boolean isConnexe() {
+    	if(!Configuration.oriente) {
+    		for (Sommet sommet : getSommets()) {
+				if(getVoisins(sommet).size() == 0)
+					return false;
+			}
+    		return true;
+    	}
+    	
+    	for (Sommet sommet : getSommets()) {
+			for (Sommet dest : getSommets()) {
+				if(sommet==dest) continue;
+				if(getChemins(sommet, dest).size() == 0)
+					return false;
+			}
+		}
+    	
+    	return true;
+    }
+    
+    public boolean isComplet() {
+    	int size = getSommets().size();
+    	
+    	if(!Configuration.oriente) {
+	    	for (Sommet sommet : getSommets()) {
+				if(getVoisins(sommet).size() != size - 1)
+					return false;
+			}
+	    	return true;
+    	}
+    	
+    	for (Sommet sommet : getSommets()) {
+			if(getVoisinsEntrants(sommet).size() != size - 1 || getVoisinsSortants(sommet).size() != size - 1)
+				return false;
+		}
+    	
+    	return true;
+    }
+    
     public Arret addArretWireshall(Sommet a, Sommet b){
         Arret ar = null;
         if(Configuration.oriente){
@@ -199,9 +239,12 @@ public class Graphe implements Cloneable,Serializable {
         arrets.forEach((arret) -> {
             arret.drawLabel(g2d);
         });
-        MainFrame.label_v.setText(getV()+"");
-        MainFrame.label_e.setText(getE()+"");
-        MainFrame.label_d.setText(getDensite()+"");
+        
+        MainFrame.getInstance().infoTable.getModel().setValueAt(getV(), 0, 1);
+        MainFrame.getInstance().infoTable.getModel().setValueAt(getE(), 1, 1);
+        MainFrame.getInstance().infoTable.getModel().setValueAt(getDensite(), 2, 1);
+        MainFrame.getInstance().infoTable.getModel().setValueAt(isConnexe() ? "Oui" : "Non", 3, 1);
+        MainFrame.getInstance().infoTable.getModel().setValueAt(isComplet() ? "Oui" : "Non", 4, 1);
         if(Configuration.current_algo!=null){
             MainFrame.console.setText(Configuration.current_algo.getTrace().toString());
             MainFrame.btn_exporter_pdf.setEnabled(true);
