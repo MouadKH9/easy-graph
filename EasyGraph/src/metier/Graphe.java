@@ -108,13 +108,13 @@ public class Graphe implements Cloneable,Serializable {
             label = JOptionPane.showInputDialog("Label pour le sommet");
             if(label==null)return null;
             if(label.isEmpty()){
-                JOptionPane.showMessageDialog(MainFrame.getInstance(), "Vous devez saisi une chaine non vide!!!", "Attention!!", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(MainFrame.getInstance(), "Vous devez saisir une chaine non vide!", "Attention", JOptionPane.WARNING_MESSAGE);
                 verification = true;
                 continue;
             }
             for(Sommet s:sommets){
                 if(s.getLabel().equals(label)){
-                    JOptionPane.showMessageDialog(MainFrame.getInstance(), "Label deja saisi", "Attention!!", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(MainFrame.getInstance(), "Label deja saisi", "Attention", JOptionPane.WARNING_MESSAGE);
                     verification = true;
                     break;
                 }
@@ -155,7 +155,7 @@ public class Graphe implements Cloneable,Serializable {
             double cout = 0.0;
             while(cout==0.0){
                 try{
-                    cout = Double.valueOf(JOptionPane.showInputDialog("Cout de cet arret (zero non acceptable!!)"));
+                    cout = Double.valueOf(JOptionPane.showInputDialog("Cout de cet arret (zero non acceptable)"));
                 }catch(NumberFormatException e){
                     cout = 0;
                 }
