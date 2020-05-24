@@ -77,7 +77,7 @@ public class FordFolkersonMarquage extends Algorithme{
                     
                     if(ar_retour!=null) ar_retour.setCout(ar_retour.getCout() + epsi);
                     else{
-                        new_g.addArret(ch.getSommets().get(i+1), ch.getSommets().get(i),epsi,true);
+                        new_g.addArret(ch.getSommets().get(i+1), ch.getSommets().get(i),epsi);
                     }
                     if(new_cout==0){
                         new_g.getArrets().remove(ar);

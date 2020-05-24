@@ -143,14 +143,16 @@ public class Arret implements Comparable<Arret>,Serializable {
     public void drawLabel(Graphics2D g2d){
         if(Configuration.pondere && sommetA!=sommetB){
         	//get center of the line
-            int centerX =sommetA.getPosition_x() + ((sommetB.getPosition_x()-sommetA.getPosition_x())/2);
-            int centerY =sommetA.getPosition_y() + ((sommetB.getPosition_y()-sommetA.getPosition_y())/2);
+        	int dx = sommetB.getPosition_x()-sommetA.getPosition_x();
+        	int dy = sommetB.getPosition_y()-sommetA.getPosition_y();
+        	
+            int centerX = sommetA.getPosition_x() + (dx/2) + ( dx > 0 ? dx/5: -dx/5 ) * (retour ? -1 : 1);
+            int centerY =sommetA.getPosition_y() + (dy/2) + ( dy > 0 ? dy/8: -dy/8 )* (retour ? -1 : 1);
 
-            if(retour) {
-            	centerX+=20;
-                centerY+=20;            	
-            }
-
+            
+            
+//            centerX	+= retour ? 20 : -20;
+            
             //get the angle in degrees
             double deg = Math.toDegrees(Math.atan2(centerY - sommetB.getPosition_y(), centerX - sommetB.getPosition_x())+ Math.PI);
             //need this in order to flip the text to be more readable within angles 90<deg<270
@@ -164,10 +166,7 @@ public class Arret implements Comparable<Arret>,Serializable {
             //rotate the text
             g2d.rotate(angle, centerX, centerY);
             //draw the text to the center of the line
-            if(!retour)
-            	g2d.setColor(Configuration.coleur_label);
-            else
-            	g2d.setColor(Color.BLUE);
+        	g2d.setColor(Configuration.coleur_label);
             //if(flux!=0)label=
             g2d.drawString(label, centerX - (sw/2), centerY - (Configuration.taille_arret+5)); 
             //reverse the rotation

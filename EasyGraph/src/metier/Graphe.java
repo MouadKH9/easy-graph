@@ -161,7 +161,12 @@ public class Graphe implements Cloneable,Serializable {
                 }
             }
             if(cout<0)Configuration.pondere_positive = false;
+        	
+        	Arret retourArr = getArret(b, a);
             ar = new Arret(a, b,Configuration.coleur_arret, cout);
+        	boolean retour = retourArr != null && Configuration.oriente;
+        	ar.setRetour(retour);
+            
         }else{
             ar = new Arret(a, b,Configuration.coleur_arret);
         }
@@ -193,14 +198,14 @@ public class Graphe implements Cloneable,Serializable {
     	
     	if(!Configuration.oriente) {
 	    	for (Sommet sommet : getSommets()) {
-				if(getVoisins(sommet).size() != size - 1)
+				if(getVoisins(sommet).size() < size - 1)
 					return false;
 			}
 	    	return true;
     	}
     	
     	for (Sommet sommet : getSommets()) {
-			if(getVoisinsEntrants(sommet).size() != size - 1 || getVoisinsSortants(sommet).size() != size - 1)
+			if(getVoisinsEntrants(sommet).size() < size - 1 || getVoisinsSortants(sommet).size() < size - 1)
 				return false;
 		}
     	
@@ -517,12 +522,10 @@ public class Graphe implements Cloneable,Serializable {
     }
 
     public Arret addArret(Sommet get, Sommet get0, Double epsi) {
-        Arret ar = new Arret(get, get0, Configuration.coleur_arret, epsi);
-        arrets.add(ar);
-        return ar;
-    }
-
-    public Arret addArret(Sommet get, Sommet get0, Double epsi,boolean retour) {
+    	
+    	Arret retourArr = getArret(get0, get);
+    	boolean retour = retourArr != null;
+    	
         Arret ar = new Arret(get, get0, Configuration.coleur_arret, epsi,retour);
         arrets.add(ar);
         return ar;
