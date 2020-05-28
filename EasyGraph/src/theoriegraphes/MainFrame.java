@@ -5,8 +5,13 @@
  */
 package theoriegraphes;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Desktop;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,24 +20,35 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.sun.javafx.application.PlatformImpl;
 
 import algos.BFS;
 import algos.BellmanFord;
@@ -44,21 +60,11 @@ import algos.Kruscal;
 import algos.Prim;
 import algos.WelchPowell;
 import algos.Wireshall;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.scene.web.WebView;
 import metier.Configuration;
 import metier.Graphe;
-import javax.swing.JButton;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.SwingConstants;
-import java.awt.Component;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Font;
-import java.awt.Toolkit;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -226,16 +232,13 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         menuInitial1 = new theoriegraphes.MenuInitial();
         jSplitPane3 = new javax.swing.JSplitPane();
-        jSplitPane3.setResizeWeight(0.3);
+        jSplitPane3.setResizeWeight(0.5);
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         console = new javax.swing.JTextArea();
         btn_exporter_pdf = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jSplitPane1.setResizeWeight(0.8);
 
         btn_bfs.setText("BFS");
         btn_bfs.setEnabled(false);
@@ -355,7 +358,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        btn_enregistrer.setText("Enregistrer");
+        btn_enregistrer.setText("Sauvegarder");
         btn_enregistrer.setEnabled(false);
         btn_enregistrer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -552,9 +555,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         jSplitPane3.setRightComponent(jPanel5);
 
-        jSplitPane3.setLeftComponent(jScrollPane3);
+        jSplitPane1.setRightComponent(jSplitPane3);
+        
+        panel = new JPanel();
+        jSplitPane3.setLeftComponent(panel);
+        panel.setLayout(new BorderLayout(0, 0));
         
         infoTable = new JTable();
+        panel.add(infoTable);
         infoTable.setShowVerticalLines(false);
         infoTable.setShowHorizontalLines(false);
         infoTable.setShowGrid(false);
@@ -573,11 +581,34 @@ public class MainFrame extends javax.swing.JFrame {
         		"New column", "New column"
         	}
         ));
-        infoTable.getColumnModel().getColumn(0).setPreferredWidth(127);
-        infoTable.getColumnModel().getColumn(1).setPreferredWidth(50);
-        jScrollPane3.setViewportView(infoTable);
-
-        jSplitPane1.setRightComponent(jSplitPane3);
+        
+        JButton btnModeDemploi = new JButton("Mode d'emploi");
+        btnModeDemploi.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+			  try {
+				PlatformImpl.startup(() -> {
+				    	JFXPanel fxPanel;
+						WebView wv;
+						JFrame frame;
+				        fxPanel = new JFXPanel ();
+				    	wv = new WebView ();
+				    	URL url = this.getClass().getResource("/docs/index.html");
+				    	wv.getEngine().load(url.toString());
+						fxPanel.setScene ( new Scene ( wv, 1000, 750 ) );
+						frame = new JFrame ("Mode d'emploi");
+			            frame.add ( new JScrollPane ( fxPanel ) );
+			            frame.setVisible ( true );
+			            frame.pack ();
+		        });
+			
+			} catch ( Exception ex ) {
+			ex.printStackTrace();
+			}
+        	}
+        });
+        panel.add(btnModeDemploi, BorderLayout.NORTH);
+        infoTable.getColumnModel().getColumn(1).setPreferredWidth(15);
+        infoTable.getColumnModel().getColumn(1).setMinWidth(5);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -817,11 +848,11 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;
     private theoriegraphes.MenuInitial menuInitial1;
+    private JPanel panel;
     public JTable infoTable;
 }

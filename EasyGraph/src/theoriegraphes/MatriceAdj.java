@@ -104,7 +104,7 @@ public class MatriceAdj extends javax.swing.JDialog {
     private void btn_tailleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_tailleActionPerformed
   
         try{
-            int nbr_sommets = Integer.parseInt(JOptionPane.showInputDialog("saisi le nombre de sommets!"));
+            int nbr_sommets = Integer.parseInt(JOptionPane.showInputDialog("Entrez le nombre de sommets:"));
             if(nbr_sommets<=0)return;
             sommets.clear();
             arrets.clear();

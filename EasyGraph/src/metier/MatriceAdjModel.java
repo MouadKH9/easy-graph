@@ -53,7 +53,7 @@ public class MatriceAdjModel extends AbstractTableModel{
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         if(columnIndex==0)return sommets.get(rowIndex).getLabel();
-        return this.matrice[rowIndex][columnIndex-1];
+        return this.matrice[rowIndex][columnIndex-1] > 0 ? 1 : 0;
     }
 
     @Override
