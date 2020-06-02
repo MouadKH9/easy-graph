@@ -103,6 +103,6 @@ public class Configuration {
         MainFrame.btn_fordfolkerson1.setEnabled(sourceExists && sinkExists && oriente && pondere);
         MainFrame.btn_fordfolkerson2.setEnabled(sourceExists && sinkExists && oriente && pondere);
         
-        MainFrame.btn_welch_powell.setEnabled(canvasExists && sommetsExist);
+        MainFrame.btn_welch_powell.setEnabled(canvasExists && sommetsExist && !oriente);
     }
 }
