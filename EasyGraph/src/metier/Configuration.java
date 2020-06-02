@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package metier;
 
 import algos.Algorithme;
@@ -13,10 +8,6 @@ import theoriegraphes.Canvas;
 import theoriegraphes.MainFrame;
 
 
-/**
- *
- * @author abdel
- */
 public class Configuration {
     public static boolean pondere = true;
     public static boolean oriente = true;
@@ -37,12 +28,6 @@ public class Configuration {
     public static ArrayList<BufferedImage> images = new ArrayList<>();
     
     public static void restore(){
-//        if(current_algo!=null){
-//            try{
-//                current_algo.interupt();
-//            }catch(Exception e){}
-//            
-//        }
         Canvas.getInstance().deselectionne();
         Canvas.getInstance().getGraphe().getSommets().clear();
         Canvas.getInstance().getGraphe().getSommets().addAll(sommets_bkp);

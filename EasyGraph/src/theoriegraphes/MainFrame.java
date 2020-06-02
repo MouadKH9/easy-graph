@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package theoriegraphes;
 
 import java.awt.BorderLayout;
@@ -66,10 +61,6 @@ import javafx.scene.web.WebView;
 import metier.Configuration;
 import metier.Graphe;
 
-/**
- *
- * @author abdel
- */
 public class MainFrame extends javax.swing.JFrame {
     private static MainFrame instance;
     
@@ -78,6 +69,7 @@ public class MainFrame extends javax.swing.JFrame {
         if(instance==null){
             instance = new MainFrame();
         }
+        instance.setBounds(100, 100, 1400, 800);
         return instance;
     }
     
@@ -384,7 +376,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setText("Temps d'annimation:");
+        jLabel8.setText("Delai d'animation:");
 
         jButton4.setText("Recommencer");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
