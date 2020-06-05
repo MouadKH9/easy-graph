@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package theoriegraphes;
 
 import java.awt.AWTException;
@@ -23,10 +18,7 @@ import metier.Configuration;
 import metier.Graphe;
 import metier.Sommet;
 
-/**
- *
- * @author abdel
- */
+
 public class Canvas extends javax.swing.JPanel {
     public static Canvas instance;
     public static Canvas getInstance(){

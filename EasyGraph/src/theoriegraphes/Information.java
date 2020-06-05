@@ -1,24 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package theoriegraphes;
 
 import metier.Graphe;
 import metier.Sommet;
 
-/**
- *
- * @author abdel
- */
+
 public class Information extends javax.swing.JDialog {
     private Sommet s;
     private Graphe g;
 
-    /**
-     * Creates new form Information
-     */
+
     public Information(java.awt.Frame parent, Graphe g, Sommet s) {
         super(parent, true);
         this.g=g;
