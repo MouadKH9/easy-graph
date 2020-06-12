@@ -689,12 +689,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btn_matriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_matriceActionPerformed
         new MatriceAdj(this, Canvas.getInstance().getGraphe().matriceAdj(), Canvas.getInstance().getGraphe().getSommets()).setVisible(true);
-//        for(int i=0;i<Canvas.getInstance().getGraphe().matriceAdj().length;i++){
-//            for(int j=0;j<Canvas.getInstance().getGraphe().matriceAdj()[i].length;j++){
-//                System.out.print(Canvas.getInstance().getGraphe().matriceAdj()[i][j]+" ");
-//            }
-//            System.out.println("");
-//        }
     }//GEN-LAST:event_btn_matriceActionPerformed
 
     private void btn_bfsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_bfsActionPerformed
