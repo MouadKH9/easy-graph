@@ -675,7 +675,7 @@ public class MainFrame extends javax.swing.JFrame {
 			    	wv = new WebView ();
 			    	URL url = this.getClass().getResource("/docs/index.html");
 			    	wv.getEngine().load(url.toString());
-					fxPanel.setScene ( new Scene ( wv, 1000, 750 ) );
+					fxPanel.setScene ( new Scene ( wv, 1200, 750 ) );
 					frame = new JFrame ("Mode d'emploi");
 		            frame.add ( new JScrollPane ( fxPanel ) );
 		            frame.setVisible ( true );
