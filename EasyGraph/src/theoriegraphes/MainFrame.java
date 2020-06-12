@@ -149,6 +149,7 @@ public class MainFrame extends javax.swing.JFrame {
 		try {
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+		    fileChooser.setFileFilter(new FileNameExtensionFilter("*.graph", "graph"));
 			
 			int result = fileChooser.showOpenDialog(this);
 			
@@ -178,12 +179,13 @@ public class MainFrame extends javax.swing.JFrame {
     	try {
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-			
+		    fileChooser.setFileFilter(new FileNameExtensionFilter("*.graph", "graph"));
+		    
 			int result = fileChooser.showOpenDialog(this);
 			
 			if (result != JFileChooser.APPROVE_OPTION) return;
 			
-			File selectedFile = fileChooser.getSelectedFile();
+			File selectedFile = new File(fileChooser.getSelectedFile() + ".graph");
     		 
             FileOutputStream fileOut = new FileOutputStream(selectedFile);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
@@ -245,11 +247,19 @@ public class MainFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Une erreur s'est produite lors de la tentative d'enregistrement");
         }
     }
+    
+    public static void showInitialMenu() {
+    	MainFrame.getInstance().setVisible(true);
+    	MenuInitial menuInitial = new MenuInitial();
+		MainFrame.getInstance().setLocationRelativeTo(null);
+    	menuInitial.setVisible(true);
+    }
 
 
     private void initComponents() {
 
         jSplitPane1 = new javax.swing.JSplitPane();
+        jSplitPane1.setResizeWeight(0.7);
         jSplitPane2 = new javax.swing.JSplitPane();
         jPanel1 = new javax.swing.JPanel();
         btn_bfs = new javax.swing.JButton();
@@ -826,10 +836,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_fordfolkerson1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Canvas.instance = null;
-//        MainFrame.getInstance().setCentrePanel(new MenuInitial());
-        
-        Configuration.checkAlgos();
+        showInitialMenu();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
@@ -862,12 +869,7 @@ public class MainFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                MainFrame.getInstance().setVisible(true);
-//                MainFrame.getInstance().setEnabled(false);
-
-            	MenuInitial menuInitial = new MenuInitial();
-        		MainFrame.getInstance().setLocationRelativeTo(null);
-            	menuInitial.setVisible(true);
+                showInitialMenu();
             }
         });
     }

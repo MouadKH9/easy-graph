@@ -5,26 +5,38 @@
  */
 package theoriegraphes;
 
-import java.awt.FlowLayout;
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import javax.swing.Box;
-import javax.swing.JCheckBox;
-import java.awt.GridLayout;
+
+import com.sun.javafx.application.PlatformImpl;
+
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.scene.web.WebView;
+import metier.Configuration;
 
 public class MenuInitial extends JDialog {
+	
+	private JCheckBox chckbxOriente;
+	private JCheckBox chckbxPondere;
+	
 	public MenuInitial() {
 		setBounds(100, 100, 773, 400);
 		setResizable(false);
@@ -43,6 +55,11 @@ public class MenuInitial extends JDialog {
 		splitPane.setLeftComponent(openPanel);
 		
 		JButton openButton = new JButton("Ouvrir un graphe");
+		openButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openGraph();
+			}
+		});
 		openButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		ImageIcon icon = new ImageIcon(MenuInitial.class.getResource("/assets/open.png"));
 		Image img = icon.getImage() ;  
@@ -88,17 +105,22 @@ public class MenuInitial extends JDialog {
 		JPanel panel = new JPanel();
 		newPanel.add(panel, BorderLayout.CENTER);
 		
-		JCheckBox chckbxOriente = new JCheckBox("Oriente");
+		chckbxOriente = new JCheckBox("Orient\u00E9");
 		chckbxOriente.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panel.add(chckbxOriente);
 		
-		JCheckBox chckbxPondere = new JCheckBox("Pondere");
+		chckbxPondere = new JCheckBox("Pond\u00E9r\u00E9");
 		chckbxPondere.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panel.add(chckbxPondere);
 		
 		JPanel panel_2 = new JPanel();
 		
 		JButton newButton = new JButton("Créer le graphe");
+		newButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createGraph();
+			}
+		});
 		ImageIcon newIcon = new ImageIcon(MenuInitial.class.getResource("/assets/new.png"));
 		Image newImg = newIcon.getImage() ;  
 		Image newNewimg = newImg.getScaledInstance( 75, 75,  java.awt.Image.SCALE_SMOOTH);  
@@ -116,10 +138,46 @@ public class MenuInitial extends JDialog {
 		JButton helpButton = new JButton("Besoin de l'aide?");
 		helpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+		    	try {
+					PlatformImpl.startup(() -> {
+					    	JFXPanel fxPanel;
+							WebView wv;
+							JFrame frame;
+					        fxPanel = new JFXPanel ();
+					    	wv = new WebView ();
+					    	URL url = this.getClass().getResource("/docs/index.html");
+					    	wv.getEngine().load(url.toString());
+							fxPanel.setScene ( new Scene ( wv, 1000, 750 ) );
+							frame = new JFrame ("Mode d'emploi");
+				            frame.add ( new JScrollPane ( fxPanel ) );
+				            frame.setVisible ( true );
+				            frame.pack ();
+			        });
+				
+				} catch ( Exception ex ) {
+					ex.printStackTrace();
+				}
 			}
 		});
 		helpButton.setBounds(316, 315, 127, 25);
 		setLocationRelativeTo(null);
 		getContentPane().add(helpButton);
+	}
+	
+	public void openGraph() {
+		MainFrame.getInstance().setCentrePanel(new Canvas());
+        MainFrame.getInstance().openSave();
+        Configuration.checkAlgos();
+        
+        this.setVisible(false);
+	}
+	
+	public void createGraph() {
+		Configuration.oriente = chckbxOriente.isSelected();
+        Configuration.pondere = chckbxPondere.isSelected();
+        MainFrame.getInstance().setCentrePanel(new Canvas());
+        Configuration.checkAlgos();
+        
+        this.setVisible(false);
 	}
 }
