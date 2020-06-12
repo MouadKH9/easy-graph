@@ -555,7 +555,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jSplitPane2.setLeftComponent(jPanel1);
 
-        jScrollPane2.setViewportView(menuInitial1);
+//        jScrollPane2.setViewportView(menuInitial1);
 
         jSplitPane2.setRightComponent(jScrollPane2);
 
@@ -827,7 +827,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         Canvas.instance = null;
-        MainFrame.getInstance().setCentrePanel(new MenuInitial());
+//        MainFrame.getInstance().setCentrePanel(new MenuInitial());
         
         Configuration.checkAlgos();
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -862,8 +862,12 @@ public class MainFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                MainFrame.getInstance().setCentrePanel(new MenuInitial());
                 MainFrame.getInstance().setVisible(true);
+//                MainFrame.getInstance().setEnabled(false);
+
+            	MenuInitial menuInitial = new MenuInitial();
+        		MainFrame.getInstance().setLocationRelativeTo(null);
+            	menuInitial.setVisible(true);
             }
         });
     }
