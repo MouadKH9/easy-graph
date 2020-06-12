@@ -104,15 +104,19 @@ public class Canvas extends javax.swing.JPanel {
     
     public void screenShot(){
         try {
-            Point l = getLocationOnScreen();       
-            Rectangle g_rec = graphe.getBounds();
-            Rectangle screenRect = new Rectangle(g_rec.x+l.x, g_rec.y+l.y, g_rec.width, g_rec.height);
-            BufferedImage capture;
-            capture = new Robot().createScreenCapture(screenRect);
-            Configuration.images.add(capture);
+            Configuration.images.add(getCapture());
         } catch (AWTException ex) {
             Logger.getLogger(Canvas.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public BufferedImage getCapture() throws AWTException {
+    	Point l = getLocationOnScreen();       
+        Rectangle g_rec = graphe.getBounds();
+        Rectangle screenRect = new Rectangle(g_rec.x+l.x, g_rec.y+l.y, g_rec.width, g_rec.height);
+        BufferedImage capture;
+        capture = new Robot().createScreenCapture(screenRect);
+        return capture;
     }
 
 

@@ -1,5 +1,6 @@
 package theoriegraphes;
 
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -32,6 +33,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
@@ -62,7 +64,7 @@ import metier.Configuration;
 import metier.Graphe;
 
 public class MainFrame extends javax.swing.JFrame {
-    private static MainFrame instance;
+	private static MainFrame instance;
     
     
     public static MainFrame getInstance(){
@@ -79,10 +81,14 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
         
         JMenuBar mb = new JMenuBar();
+        
         JMenu fileMenu = new JMenu("Fichier");
     	JMenuItem openMenuItem = new JMenuItem("Ouvrir");
     	JMenuItem saveMenuItem = new JMenuItem("Enregistrer");
+    	JMenuItem imageMenuItem = new JMenuItem("Enregistrer comme image");
     	JMenuItem exitMenuItem = new JMenuItem("Quitter");
+    	
+    	
 
     	openMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,6 +102,12 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
     	
+    	imageMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	saveImage();
+            }
+        });
+    	
 
     	exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,10 +117,27 @@ public class MainFrame extends javax.swing.JFrame {
         
     	fileMenu.add(openMenuItem);
     	fileMenu.add(saveMenuItem);
+    	fileMenu.add(new JSeparator());
+    	fileMenu.add(imageMenuItem);
+    	fileMenu.add(new JSeparator());
     	fileMenu.add(exitMenuItem);
     	
     	mb.add(fileMenu);
+    	
+
+        JMenu helpMenu = new JMenu("Aide");
+    	JMenuItem helpMenuItem = new JMenuItem("Mode d'emploi");
+    	
+    	helpMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	showHelp();
+            }
+        });
+    	
+    	helpMenu.add(helpMenuItem);
         
+    	mb.add(helpMenu);
+    	
         this.setJMenuBar(mb);
     }
     
@@ -175,13 +204,46 @@ public class MainFrame extends javax.swing.JFrame {
     			Canvas.getInstance().getGraphe().getSommets().size() > 0) {
     		
     		int input = JOptionPane.showConfirmDialog(null,
-                    "Vous avez du progres non enregistré, voulez-vous le sauvegarder?", "Attention",JOptionPane.YES_NO_CANCEL_OPTION);
-    		if(input == 0){ // Oui
+                    						"Vous avez du progres non enregistré, voulez-vous le sauvegarder?",
+                							"Attention" ,JOptionPane.YES_NO_CANCEL_OPTION);
+    		if(input == 2) return; // Annuler
+    		
+    		if(input == 0) // Oui
     			save();
-    			System.exit(0);
-    		}else if(input == 1) //Non
-    			System.exit(0);
+    		
+			System.exit(0);
     	}
+    	
+		System.exit(0);
+    }
+    
+    public void saveImage() {
+    	try {
+			JFileChooser fileChooser = new JFileChooser();
+		    fileChooser.setFileFilter(new FileNameExtensionFilter("*.png", "png"));
+			fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+			
+			int result = fileChooser.showOpenDialog(this);
+			
+			if (result != JFileChooser.APPROVE_OPTION) return;
+			
+			File selectedFile = fileChooser.getSelectedFile();
+    		 
+            Thread thread = new Thread(()->{
+            	try {
+            		Thread.sleep(1000);
+					ImageIO.write(Canvas.getInstance().getCapture(), "png", new File(selectedFile.getAbsolutePath() + ".png"));
+				} catch (IOException | AWTException | InterruptedException e) {
+					e.printStackTrace();
+				}
+            });
+            
+            thread.start();
+ 
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Une erreur s'est produite lors de la tentative d'enregistrement");
+        }
     }
 
 
@@ -569,25 +631,7 @@ public class MainFrame extends javax.swing.JFrame {
         JButton btnModeDemploi = new JButton("Mode d'emploi");
         btnModeDemploi.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
-			  try {
-				PlatformImpl.startup(() -> {
-				    	JFXPanel fxPanel;
-						WebView wv;
-						JFrame frame;
-				        fxPanel = new JFXPanel ();
-				    	wv = new WebView ();
-				    	URL url = this.getClass().getResource("/docs/index.html");
-				    	wv.getEngine().load(url.toString());
-						fxPanel.setScene ( new Scene ( wv, 1000, 750 ) );
-						frame = new JFrame ("Mode d'emploi");
-			            frame.add ( new JScrollPane ( fxPanel ) );
-			            frame.setVisible ( true );
-			            frame.pack ();
-		        });
-			
-			} catch ( Exception ex ) {
-			ex.printStackTrace();
-			}
+			  showHelp();
         	}
         });
         panel.add(btnModeDemploi, BorderLayout.NORTH);
@@ -613,6 +657,28 @@ public class MainFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    public void showHelp() {
+    	try {
+			PlatformImpl.startup(() -> {
+			    	JFXPanel fxPanel;
+					WebView wv;
+					JFrame frame;
+			        fxPanel = new JFXPanel ();
+			    	wv = new WebView ();
+			    	URL url = this.getClass().getResource("/docs/index.html");
+			    	wv.getEngine().load(url.toString());
+					fxPanel.setScene ( new Scene ( wv, 1000, 750 ) );
+					frame = new JFrame ("Mode d'emploi");
+		            frame.add ( new JScrollPane ( fxPanel ) );
+		            frame.setVisible ( true );
+		            frame.pack ();
+	        });
+		
+		} catch ( Exception ex ) {
+			ex.printStackTrace();
+		}
+    }
 
     private void btn_matriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_matriceActionPerformed
         new MatriceAdj(this, Canvas.getInstance().getGraphe().matriceAdj(), Canvas.getInstance().getGraphe().getSommets()).setVisible(true);
