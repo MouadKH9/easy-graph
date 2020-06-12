@@ -182,7 +182,6 @@ public class MainFrame extends javax.swing.JFrame {
 		    fileChooser.setFileFilter(new FileNameExtensionFilter("*.graph", "graph"));
 		    
 			int result = fileChooser.showOpenDialog(this);
-			
 			if (result != JFileChooser.APPROVE_OPTION) return;
 			
 			File selectedFile = new File(fileChooser.getSelectedFile() + ".graph");
@@ -191,11 +190,9 @@ public class MainFrame extends javax.swing.JFrame {
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(Canvas.getInstance().getGraphe());
             objectOut.close();
- 
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Une erreur s'est produite lors de la tentative d'enregistrement");
-
         }
     	
     }
