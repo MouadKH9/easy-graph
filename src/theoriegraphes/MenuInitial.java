@@ -166,10 +166,10 @@ public class MenuInitial extends JDialog {
 	
 	public void openGraph() {
 		MainFrame.getInstance().setCentrePanel(new Canvas());
-        MainFrame.getInstance().openSave();
-        Configuration.checkAlgos();
+		
+        if(MainFrame.getInstance().openSave()) this.setVisible(false);
         
-        this.setVisible(false);
+        Configuration.checkAlgos();
 	}
 	
 	public void createGraph() {

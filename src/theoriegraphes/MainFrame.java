@@ -70,8 +70,8 @@ public class MainFrame extends javax.swing.JFrame {
     public static MainFrame getInstance(){
         if(instance==null){
             instance = new MainFrame();
+            instance.setBounds(100, 100, 1400, 800);
         }
-        instance.setBounds(100, 100, 1400, 800);
         return instance;
     }
     
@@ -145,7 +145,7 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane2.setViewportView(p);
     }
     
-    public void openSave(){
+    public boolean openSave(){
 		try {
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
@@ -153,7 +153,7 @@ public class MainFrame extends javax.swing.JFrame {
 			
 			int result = fileChooser.showOpenDialog(this);
 			
-			if (result != JFileChooser.APPROVE_OPTION) return;
+			if (result != JFileChooser.APPROVE_OPTION) return false;
 			
 			File selectedFile = fileChooser.getSelectedFile();
 
@@ -163,15 +163,22 @@ public class MainFrame extends javax.swing.JFrame {
 	        Graphe newGraph = (Graphe) ois.readObject();
 	        ois.close();
 	        
+	        System.out.println("Pondere:");
+	        System.out.println(newGraph.isPondere());
+	        
+	        System.out.println("Oriente:");
+	        System.out.println(newGraph.isOriente());
 	        
 	        Configuration.pondere = newGraph.isPondere();
 	        Configuration.oriente = newGraph.isOriente();
 	        
 	        Canvas.getInstance().setGraphe(newGraph);
 	        Canvas.getInstance().repaint();
+	        return true;
 		} catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Une erreur s'est produite lors la lecture de ce enregistrement.");
 			e.printStackTrace();
+			return false;
 		}
     }
     public void save() {
@@ -185,10 +192,14 @@ public class MainFrame extends javax.swing.JFrame {
 			if (result != JFileChooser.APPROVE_OPTION) return;
 			
 			File selectedFile = new File(fileChooser.getSelectedFile() + ".graph");
+			
+			Graphe graph = Canvas.getInstance().getGraphe();
+			graph.setOriente(Configuration.oriente);
+			graph.setPondere(Configuration.pondere);
     		 
             FileOutputStream fileOut = new FileOutputStream(selectedFile);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-            objectOut.writeObject(Canvas.getInstance().getGraphe());
+            objectOut.writeObject(graph);
             objectOut.close();
         } catch (Exception ex) {
             ex.printStackTrace();
